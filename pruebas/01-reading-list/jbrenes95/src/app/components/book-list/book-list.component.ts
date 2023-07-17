@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Book } from 'src/models/books';
 import { JsonDataService } from 'src/shared/json-data.service';
 
 @Component({
@@ -7,18 +8,13 @@ import { JsonDataService } from 'src/shared/json-data.service';
   styleUrls: ['./book-list.component.scss'],
 })
 export class BookListComponent implements OnInit {
-  constructor(private jsonDateService: JsonDataService) { }
+  public library: Book[] = [];
+  constructor(private jsonDateService: JsonDataService) {}
 
   ngOnInit(): void {
-
-
-
-
-
-
-
-    this.jsonDateService.getDataFromJson().subscribe((jsonData) => {
-      console.log(jsonData);
+    this.jsonDateService.getDataFromJson();
+    this.jsonDateService.data$.subscribe((books) => {
+      this.library = books;
     });
   }
 }

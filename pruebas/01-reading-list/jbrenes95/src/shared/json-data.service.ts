@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Book, Library, Root } from '../models/books';
 
 @Injectable({
   providedIn: 'root',
@@ -8,20 +9,21 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class JsonDataService {
   constructor(private http: HttpClient) {}
 
-  private dataSubject: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >([]);
-  public data$: Observable<string[]> = this.dataSubject.asObservable();
+  private dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public data$: Observable<any> = this.dataSubject.asObservable();
 
-  getDataFromJson(): Observable<any> {
-    return this.http.get<any>('assets/books.json');
+  getDataFromJson(): void {
+    this.http.get<any>('assets/books.json').subscribe(({ library }) => {
+      const books = this.mappingBooks(library);
+      this.updateData(books);
+    });
   }
 
-  getData(): string[] {
-    return this.dataSubject.value;
+  mappingBooks(library: any): any {
+    return library.map(({ book }: { book: any }) => book);
   }
 
-  updateData(newData: string[]): void {
+  updateData(newData: any): void {
     this.dataSubject.next(newData);
   }
 }
