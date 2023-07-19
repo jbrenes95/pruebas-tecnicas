@@ -20,8 +20,7 @@ export class BookAvailableComponent {
     const filterBooks = this.library.filter(
       (books) => books.ISBN != event.ISBN,
     );
-    this.bookListService.setBooksList(event);
-
-    this.jsonDateService.updateAvailableBook(filterBooks);
+    this.bookListService.updateBooksList(event);
+    this.jsonDateService.deleteAvailableBook(filterBooks);
   }
 }

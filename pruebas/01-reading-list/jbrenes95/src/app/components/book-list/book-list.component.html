@@ -1,7 +1,7 @@
 <div class="bookList">
   <img
     *ngFor="let item of bookList"
-    (click)="romeveBookToList(item.ISBN)"
+    (click)="romeveBookToList(item)"
     src="{{ item.cover }}"
   />
 </div>

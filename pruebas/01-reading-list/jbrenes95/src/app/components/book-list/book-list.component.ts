@@ -11,8 +11,17 @@ import { JsonDataService } from 'src/shared/json-data.service';
 })
 export class BookListComponent implements OnInit {
   @Input() bookList: Book[] = [];
-  constructor() {}
+  constructor(
+    private bookListService: BookListService,
+    private jsonBookService: JsonDataService,
+  ) {}
   ngOnInit(): void {}
 
-  romeveBookToList(ISBN: string) {}
+  romeveBookToList(item: Book) {
+    const filterBooksList = this.bookList.filter(
+      (books) => books.ISBN != item.ISBN,
+    );
+    this.bookListService.setBookList(filterBooksList);
+    this.jsonBookService.addAvailableBook(item);
+  }
 }

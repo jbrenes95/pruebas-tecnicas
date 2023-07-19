@@ -29,14 +29,14 @@ export class BookListService {
     return this.booksList$;
   }
 
-  setBooksList(newData: any) {
+  updateBooksList(newData: any): void {
     const currentBooks = this.booksListSubject.getValue();
-    const joinArrays = [...currentBooks, newData];
+    const joinArrays = [newData, ...currentBooks];
     this.booksListSubject.next(joinArrays);
     this.storageService.setStorage('BooksList', joinArrays);
   }
 
-  updateBookList(newData: any): void {
+  setBookList(newData: any): void {
     this.storageService.setStorage('BooksList', newData);
     this.booksListSubject.next(newData);
   }

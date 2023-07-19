@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { StorageService } from './storage.service';
+import { Book } from 'src/models/books';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class JsonDataService {
         }),
       )
       .subscribe((books) => {
-        this.setAvailableBooks(books);
+        this.booksAvailables.next(books);
       });
   }
 
@@ -40,12 +41,15 @@ export class JsonDataService {
     return this.booksAvailables$;
   }
 
-  setAvailableBooks(newData: any) {
+  deleteAvailableBook(newData: any): void {
+    this.storageService.setStorage('Books', newData);
     this.booksAvailables.next(newData);
   }
 
-  updateAvailableBook(newData: any): void {
-    this.storageService.setStorage('Books', newData);
-    this.booksAvailables.next(newData);
+  addAvailableBook(newBook: Book) {
+    const currentBooks = this.booksAvailables.getValue();
+    const joinArrays = [...currentBooks, newBook];
+    this.booksAvailables.next(joinArrays);
+    this.storageService.setStorage('Book', joinArrays);
   }
 }
