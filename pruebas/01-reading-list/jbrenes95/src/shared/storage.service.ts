@@ -8,12 +8,12 @@ import { JsonDataService } from './json-data.service';
 export class StorageService {
   constructor() {}
 
-  setStorage(data: any) {
-    localStorage.setItem('Books', JSON.stringify(data));
+  setStorage(key: string, data: Book[]) {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 
-  getStorage(): any {
-    const data = localStorage.getItem('miArray');
+  getStorage(key: string): any {
+    const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
   }
 }

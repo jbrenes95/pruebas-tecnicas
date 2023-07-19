@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,10 @@ export class JsonDataService {
   public booksAvailables$: Observable<any> =
     this.booksAvailables.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService,
+  ) {
     window.addEventListener('storage', (event: any) => {
       if (event.key === 'Books') {
         const newData = JSON.parse(event.newValue);
@@ -41,7 +45,7 @@ export class JsonDataService {
   }
 
   updateBook(newData: any): void {
-    localStorage.setItem('Books', JSON.stringify(newData));
+    this.storageService.setStorage('Books', newData);
     this.booksAvailables.next(newData);
   }
 }
