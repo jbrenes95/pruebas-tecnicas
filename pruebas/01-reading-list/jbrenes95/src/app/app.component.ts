@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Book } from 'src/models/books';
+import { BookListService } from 'src/shared/book-list.service';
 import { JsonDataService } from 'src/shared/json-data.service';
 
 @Component({
@@ -11,18 +12,24 @@ import { JsonDataService } from 'src/shared/json-data.service';
 export class AppComponent implements OnInit {
   private library$: Subscription = new Subscription();
   public library: Book[] = [];
-  public booksLength: number = 0;
+  public bookList: Book[] = [];
 
-  constructor(private jsonDateService: JsonDataService) {}
+  constructor(
+    private jsonDateService: JsonDataService,
+    private bookListService: BookListService,
+  ) {}
 
   ngOnInit(): void {
     this.jsonDateService.getBooksFromJson();
     this.library$ = this.jsonDateService
-      .getBooksObservable()
+      .getAvailableBooksObservable()
       .subscribe((books) => {
-        this.booksLength = books.length;
         this.library = books;
       });
+
+    this.bookListService.getBooksListObservable().subscribe((bookListNow) => {
+      this.bookList = bookListNow;
+    });
   }
 
   ngOnDestroy(): void {

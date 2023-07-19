@@ -32,19 +32,19 @@ export class JsonDataService {
         }),
       )
       .subscribe((books) => {
-        this.setBooks(books);
+        this.setAvailableBooks(books);
       });
   }
 
-  getBooksObservable(): Observable<any[]> {
+  getAvailableBooksObservable(): Observable<any[]> {
     return this.booksAvailables$;
   }
 
-  setBooks(newData: any) {
+  setAvailableBooks(newData: any) {
     this.booksAvailables.next(newData);
   }
 
-  updateBook(newData: any): void {
+  updateAvailableBook(newData: any): void {
     this.storageService.setStorage('Books', newData);
     this.booksAvailables.next(newData);
   }

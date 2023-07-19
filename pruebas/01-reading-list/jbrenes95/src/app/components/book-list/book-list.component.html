@@ -1,8 +1,7 @@
-<div class="bookList"></div>
-
-<!– <img
-  *ngFor="let item of library"
-  (click)="deleteLibraryBook(item.ISBN)"
-  src="{{ item.cover }}"
-/>
-–>
+<div class="bookList">
+  <img
+    *ngFor="let item of bookList"
+    (click)="romeveBookToList(item.ISBN)"
+    src="{{ item.cover }}"
+  />
+</div>

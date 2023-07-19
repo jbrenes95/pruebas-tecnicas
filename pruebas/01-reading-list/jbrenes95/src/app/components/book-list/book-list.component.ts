@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Book } from 'src/models/books';
+import { BookListService } from 'src/shared/book-list.service';
 import { JsonDataService } from 'src/shared/json-data.service';
 
 @Component({
@@ -8,4 +9,10 @@ import { JsonDataService } from 'src/shared/json-data.service';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
 })
-export class BookListComponent {}
+export class BookListComponent implements OnInit {
+  @Input() bookList: Book[] = [];
+  constructor() {}
+  ngOnInit(): void {}
+
+  romeveBookToList(ISBN: string) {}
+}
