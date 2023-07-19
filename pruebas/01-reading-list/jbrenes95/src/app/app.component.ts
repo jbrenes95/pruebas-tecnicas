@@ -14,4 +14,8 @@ export class AppComponent implements OnInit {
       this.booksLength = books.length;
     });
   }
+
+  ngOnDestroy(): void {
+    //this.jsonDateService.data$.unsubscribe();
+  }
 }
