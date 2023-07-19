@@ -1,15 +1,4 @@
-.booksContainer {
-  border: 3px solid green;
+.bookList {
+  border: 3px solid red;
   border-radius: 7px;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10%;
-}
-
-img {
-  height: 300px;
-  width: 200px;
-  padding: 12px;
-  border-radius: 23px;
-  flex: 0 0 200px;
 }
