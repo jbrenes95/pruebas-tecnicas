@@ -12,6 +12,9 @@ export class JsonDataService {
   public booksAvailables$: Observable<any> =
     this.booksAvailables.asObservable();
 
+  private booksNoSelected = new BehaviorSubject<number>(0);
+  booksNoSelected$ = this.booksNoSelected.asObservable();
+
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
@@ -29,12 +32,21 @@ export class JsonDataService {
       .get<any>('assets/books.json')
       .pipe(
         map(({ library }: any) => {
-          return library.map(({ book }: { book: any }) => book);
+          return library.map(({ book }: { book: any }) => {
+            book.selected = false;
+            return book;
+          });
         }),
       )
       .subscribe((books) => {
         this.booksAvailables.next(books);
+        this.updateCounterBooksNoSelected(books);
       });
+  }
+
+  updateCounterBooksNoSelected(books: Book[]) {
+    const counterBooks = books.filter((book) => !book.selected).length;
+    this.booksNoSelected.next(counterBooks);
   }
 
   getAvailableBooksObservable(): Observable<any[]> {

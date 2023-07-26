@@ -21,3 +21,7 @@ img {
   border-radius: 23px;
   flex: 0 0 200px;
 }
+.selected {
+  opacity: 0.2;
+  pointer-events: none;
+}

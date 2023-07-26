@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Book } from 'src/models/books';
 import { BookListService } from 'src/shared/book-list.service';
 import { JsonDataService } from 'src/shared/json-data.service';
@@ -8,19 +8,22 @@ import { JsonDataService } from 'src/shared/json-data.service';
   templateUrl: './book-available.component.html',
   styleUrls: ['./book-available.component.scss'],
 })
-export class BookAvailableComponent {
+export class BookAvailableComponent implements OnInit {
   @Input() library: Book[] = [];
-
+  public counterSelectedLibrary: number = 0;
   constructor(
     private jsonDateService: JsonDataService,
     private bookListService: BookListService,
   ) {}
-
-  deleteLibraryBook(event: Book) {
-    const filterBooks = this.library.filter(
-      (books) => books.ISBN != event.ISBN,
+  ngOnInit(): void {
+    this.jsonDateService.booksNoSelected$.subscribe(
+      (booksCounter) => (this.counterSelectedLibrary = booksCounter),
     );
-    this.bookListService.updateBooksList(event);
-    this.jsonDateService.deleteAvailableBook(filterBooks);
+  }
+
+  deleteLibraryBook(book: Book) {
+    book.selected = true;
+    this.jsonDateService.updateCounterBooksNoSelected(this.library);
+    this.bookListService.updateBooksList(book);
   }
 }

@@ -14,6 +14,7 @@ export interface Book {
   synopsis: string;
   year: number;
   ISBN: string;
+  selected: boolean;
   author: Author;
 }
 

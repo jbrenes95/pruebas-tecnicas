@@ -17,7 +17,9 @@ export class BookListComponent implements OnInit {
   ) {}
   ngOnInit(): void {}
 
-  romeveBookToList(item: Book) {
+  romeveBookToList(item: any) {
+    console.log(item);
+
     const filterBooksList = this.bookList.filter(
       (books) => books.ISBN != item.ISBN,
     );
