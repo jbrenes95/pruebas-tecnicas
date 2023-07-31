@@ -70,14 +70,15 @@ export class JsonDataService {
 
   addAvailableBook(newBook: Book) {
     const { ISBN } = newBook;
-    this.booksAvailables$.subscribe((books) => {
-      books.map((book: Book) => {
-        if (book.ISBN === ISBN) {
-          book.selected = false;
+    const updateBookAvailable = this.booksAvailables
+      .getValue()
+      .map((bookAvailable: Book) => {
+        if (bookAvailable.ISBN === ISBN) {
+          return { ...bookAvailable, selected: false };
         }
-
-        return book;
+        return bookAvailable;
       });
-    });
+
+    this.booksAvailables.next(updateBookAvailable);
   }
 }

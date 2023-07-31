@@ -20,25 +20,18 @@ export class BookListComponent implements OnInit {
     private bookListService: BookListService,
     private jsonBookService: JsonDataService,
   ) {}
+
   ngOnInit(): void {
     this.bookList$ = this.bookListService
       .getBooksListObservable()
       .subscribe((bookList) => {
         this.bookList = bookList ? bookList : [];
       });
-
-    this.counterBookList$ = this.bookListService
-      .getCounterBooksListObservable()
-      .subscribe((counter) => {
-        console.log(counter);
-
-        this.counterBookList = counter;
-      });
   }
 
   romeveBookToList(item: any) {
     const filterBooksList = this.bookList.filter(
-      (books) => books.ISBN != item.item.ISBN,
+      (books) => books.ISBN != item.ISBN,
     );
     this.bookListService.setBookList(filterBooksList);
     this.jsonBookService.addAvailableBook(item);
