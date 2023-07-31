@@ -8,8 +8,9 @@ import { JsonDataService } from './json-data.service';
 export class StorageService {
   constructor() {}
 
-  setStorage(key: string, data: Book[]) {
-    localStorage.setItem(key, JSON.stringify(data));
+  setStorage(key: string, data: any) {
+    const datas = typeof data === 'object' ? JSON.stringify(data) : data;
+    localStorage.setItem(key, datas);
   }
 
   getStorage(key: string): any {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
+import { Book } from 'src/models/books';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +37,8 @@ export class BookListService {
     this.storageService.setStorage('BooksList', joinArrays);
   }
 
-  setBookList(newData: any): void {
-    this.storageService.setStorage('BooksList', newData);
-    this.booksListSubject.next(newData);
+  setBookList(filteredBooks: Book[]): void {
+    this.storageService.setStorage('BooksList', filteredBooks);
+    this.booksListSubject.next(filteredBooks);
   }
 }

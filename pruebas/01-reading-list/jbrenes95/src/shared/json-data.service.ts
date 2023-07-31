@@ -21,8 +21,13 @@ export class JsonDataService {
   ) {
     window.addEventListener('storage', (event: any) => {
       if (event.key === 'Books') {
-        const newData = JSON.parse(event.newValue);
+        const newData = event.newValue ? JSON.parse(event.newValue) : [];
+
         this.booksAvailables.next(newData);
+      }
+      if (event.key === 'Counter') {
+        const newData = event.newValue;
+        this.booksNoSelected.next(newData);
       }
     });
   }
@@ -46,11 +51,16 @@ export class JsonDataService {
 
   updateCounterBooksNoSelected(books: Book[]) {
     const counterBooks = books.filter((book) => !book.selected).length;
+    this.storageService.setStorage('Counter', counterBooks);
     this.booksNoSelected.next(counterBooks);
   }
 
-  getAvailableBooksObservable(): Observable<any[]> {
+  getAvailableBooksObservable(): Observable<any> {
     return this.booksAvailables$;
+  }
+
+  getCounterBooksNoSelected(): Observable<any> {
+    return this.booksNoSelected$;
   }
 
   deleteAvailableBook(newData: any): void {
@@ -59,9 +69,15 @@ export class JsonDataService {
   }
 
   addAvailableBook(newBook: Book) {
-    const currentBooks = this.booksAvailables.getValue();
-    const joinArrays = [...currentBooks, newBook];
-    this.booksAvailables.next(joinArrays);
-    this.storageService.setStorage('Book', joinArrays);
+    const { ISBN } = newBook;
+    this.booksAvailables$.subscribe((books) => {
+      books.map((book: Book) => {
+        if (book.ISBN === ISBN) {
+          book.selected = false;
+        }
+
+        return book;
+      });
+    });
   }
 }
