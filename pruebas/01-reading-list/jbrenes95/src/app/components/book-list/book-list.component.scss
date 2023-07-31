@@ -1,6 +1,10 @@
 .bookList {
   border: 3px solid red;
   border-radius: 7px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10%;
 }
 
 img {
@@ -9,4 +13,11 @@ img {
   padding: 12px;
   border-radius: 23px;
   flex: 0 0 200px;
+}
+
+.titlesBookList {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: auto;
 }

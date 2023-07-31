@@ -1,4 +1,10 @@
 <div class="bookList">
+  <h1 class="titlesBookList">Lista de lectura</h1>
+
+  <h2 class="titlesBookList" *ngIf="bookList.length">
+    {{ bookList.length }} En la lista de lectura
+  </h2>
+
   <img
     *ngFor="let item of bookList"
     (click)="romeveBookToList({ item, $event })"
