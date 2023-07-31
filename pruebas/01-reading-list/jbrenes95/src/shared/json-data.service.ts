@@ -70,15 +70,22 @@ export class JsonDataService {
 
   addAvailableBook(newBook: Book) {
     const { ISBN } = newBook;
-    const updateBookAvailable = this.booksAvailables
-      .getValue()
-      .map((bookAvailable: Book) => {
-        if (bookAvailable.ISBN === ISBN) {
-          return { ...bookAvailable, selected: false };
-        }
-        return bookAvailable;
-      });
+    const booksAvailables = this.booksAvailables.getValue();
 
+    const updateBookAvailable = this.updateBookAvailableWithISBN(
+      booksAvailables,
+      ISBN,
+    );
     this.booksAvailables.next(updateBookAvailable);
+    this.updateCounterBooksNoSelected(updateBookAvailable);
+  }
+
+  updateBookAvailableWithISBN(booksAvailable: Book[], ISBN: string): Book[] {
+    return booksAvailable.map((bookAvailable: Book) => {
+      if (bookAvailable.ISBN === ISBN) {
+        return { ...bookAvailable, selected: false };
+      }
+      return bookAvailable;
+    });
   }
 }
