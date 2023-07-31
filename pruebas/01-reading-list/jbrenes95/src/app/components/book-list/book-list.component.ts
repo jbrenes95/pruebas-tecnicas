@@ -10,20 +10,41 @@ import { JsonDataService } from 'src/shared/json-data.service';
   styleUrls: ['./book-list.component.scss'],
 })
 export class BookListComponent implements OnInit {
-  @Input() bookList: Book[] = [];
+  public bookList: Book[] = [];
+  public counterBookList: number = 0;
+
+  private bookList$: Subscription = new Subscription();
+  private counterBookList$: Subscription = new Subscription();
+
   constructor(
     private bookListService: BookListService,
     private jsonBookService: JsonDataService,
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.bookList$ = this.bookListService
+      .getBooksListObservable()
+      .subscribe((bookList) => {
+        this.bookList = bookList ? bookList : [];
+      });
+
+    this.counterBookList$ = this.bookListService
+      .getCounterBooksListObservable()
+      .subscribe((counter) => {
+        console.log(counter);
+
+        this.counterBookList = counter;
+      });
+  }
 
   romeveBookToList(item: any) {
-    console.log(item);
-
     const filterBooksList = this.bookList.filter(
-      (books) => books.ISBN != item.ISBN,
+      (books) => books.ISBN != item.item.ISBN,
     );
     this.bookListService.setBookList(filterBooksList);
     this.jsonBookService.addAvailableBook(item);
+  }
+
+  ngOnDestroy(): void {
+    this.bookList$.unsubscribe();
   }
 }
